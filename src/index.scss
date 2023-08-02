@@ -1,0 +1,29 @@
+.app-card {
+  margin: 8px 0;
+
+  .ant-card-head-title {
+    text-transform: capitalize;
+  }
+
+  .app-card-body > div::first-letter {
+      text-transform: uppercase;
+  }
+
+  .app-card-body {
+    min-height: 66px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.app-card-comment {
+  .ant-list-item-meta-title {
+    text-transform: capitalize;
+  }
+
+  .ant-list-item-meta-description::first-letter {
+    text-transform: uppercase;
+  }
+}

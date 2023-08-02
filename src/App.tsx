@@ -1,42 +1,49 @@
-import { useAppDispatch, useAppSelector } from './hooks/redux.ts'
-import { postSlice } from './store/reducers/PostSlice.ts'
+import { Col, Row, Tabs } from 'antd'
+
+import { useAppSelector } from './hooks/redux.ts'
 import { postApi } from './services/PostService.ts'
-import { IPost } from './models/IPost.ts'
+import AppCard from './components/AppCard.tsx'
 
 function App() {
-  const dispatch = useAppDispatch()
-
   const { favoritePosts } = useAppSelector((state) => state.postReducer)
-  const { addFavouritePost, deleteFavouritePost } = postSlice.actions
-
   const { data: posts } = postApi.useFetchAllPostsQuery(10)
 
-  const handleAddFav = (post: IPost) => {
-    dispatch(addFavouritePost(post))
-  }
-
-  const handlerDeleteFav = (post: IPost) => {
-    dispatch(deleteFavouritePost(post))
-  }
-
   return (
-    <div>
-      <h2>FAVORITES:</h2>
-      {favoritePosts.map((fav) => (
-        <div key={fav.id}>{fav.title}</div>
-      ))}
-
-      <h2>POSTS:</h2>
-      {posts?.map((post) => (
-        <div key={post.id}>
-          {post.title}
-          <button onClick={() => handleAddFav(post)}>add to fav</button>
-          <button onClick={() => handlerDeleteFav(post)}>
-            delete from fav
-          </button>
-        </div>
-      ))}
-    </div>
+    <Row justify="center">
+      <Col span={18}>
+        <Tabs
+          defaultActiveKey="1"
+          items={[
+            {
+              key: '1',
+              label: 'Posts',
+              children: (
+                <Row gutter={16}>
+                  {posts?.map((post) => (
+                    <Col key={post.id} span={8}>
+                      <AppCard post={post} />
+                    </Col>
+                  ))}
+                </Row>
+              ),
+            },
+            {
+              key: '2',
+              label: 'Favorite',
+              children: (
+                <Row gutter={16}>
+                  {favoritePosts.map((post) => (
+                    <Col key={post.id} span={8}>
+                      <AppCard post={post} />
+                    </Col>
+                  ))}
+                </Row>
+              ),
+            },
+          ]}
+        />
+      </Col>
+    </Row>
   )
 }
 
