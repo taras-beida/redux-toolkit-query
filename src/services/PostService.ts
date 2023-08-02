@@ -18,7 +18,7 @@ export const postApi = createApi({
       query: (postId) => ({
         url: `/posts/${postId}/comments`,
         params: {
-          _limit: 10,
+          _limit: 50,
         },
       }),
     }),

@@ -43,7 +43,11 @@ const AppCard: FC<Props> = ({ post }) => {
       className="app-card"
       actions={[
         isFavourite ? (
-          <StarFilled key="star" onClick={handleFavorite} />
+          <StarFilled
+            key="star"
+            style={{ color: 'green' }}
+            onClick={handleFavorite}
+          />
         ) : (
           <StarOutlined key="star" onClick={handleFavorite} />
         ),

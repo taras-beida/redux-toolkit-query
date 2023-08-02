@@ -23,7 +23,7 @@ const AppCardComments: FC<Props> = ({ postId }) => {
             overflow: 'auto',
           }}
           itemLayout="horizontal"
-          dataSource={comments}
+          dataSource={comments || []}
           renderItem={(item, index) => (
             <List.Item className="app-card-comment">
               <List.Item.Meta

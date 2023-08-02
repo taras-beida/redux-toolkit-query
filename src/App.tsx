@@ -1,44 +1,24 @@
 import { Col, Row, Tabs } from 'antd'
 
-import { useAppSelector } from './hooks/redux.ts'
-import { postApi } from './services/PostService.ts'
-import AppCard from './components/AppCard.tsx'
+import Posts from './components/Posts.tsx'
+import Favorites from './components/Favorites.tsx'
 
 function App() {
-  const { favoritePosts } = useAppSelector((state) => state.postReducer)
-  const { data: posts } = postApi.useFetchAllPostsQuery(10)
-
   return (
     <Row justify="center">
-      <Col span={18}>
+      <Col xs={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 20 }}>
         <Tabs
           defaultActiveKey="1"
           items={[
             {
               key: '1',
               label: 'Posts',
-              children: (
-                <Row gutter={16}>
-                  {posts?.map((post) => (
-                    <Col key={post.id} span={8}>
-                      <AppCard post={post} />
-                    </Col>
-                  ))}
-                </Row>
-              ),
+              children: <Posts />,
             },
             {
               key: '2',
-              label: 'Favorite',
-              children: (
-                <Row gutter={16}>
-                  {favoritePosts.map((post) => (
-                    <Col key={post.id} span={8}>
-                      <AppCard post={post} />
-                    </Col>
-                  ))}
-                </Row>
-              ),
+              label: 'Favorites',
+              children: <Favorites />,
             },
           ]}
         />
