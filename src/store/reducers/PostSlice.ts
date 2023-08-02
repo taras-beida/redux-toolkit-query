@@ -2,14 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IPost } from '../../models/IPost.ts'
 
 interface PostState {
-  posts: IPost[]
   favoritePosts: IPost[]
   isLoading: boolean
   error: string
 }
 
 const initialState: PostState = {
-  posts: [],
   favoritePosts: [],
   isLoading: false,
   error: '',

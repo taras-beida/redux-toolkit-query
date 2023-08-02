@@ -8,7 +8,7 @@ interface Props {
   postId: number
 }
 
-const AppCardComments: FC<Props> = ({ postId }) => {
+const PostCardComments: FC<Props> = ({ postId }) => {
   const { data: comments, isLoading } =
     postApi.useFetchPostCommentsQuery(postId)
 
@@ -43,4 +43,4 @@ const AppCardComments: FC<Props> = ({ postId }) => {
   )
 }
 
-export default AppCardComments
+export default PostCardComments

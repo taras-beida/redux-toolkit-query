@@ -1,18 +1,25 @@
-import { Col, Row } from 'antd'
+import { Col, Empty, Row } from 'antd'
 
 import { postApi } from '../services/PostService.ts'
-import AppCard from './AppCard.tsx'
+import PostCard from './PostCard.tsx'
+import CreatePostButton from './CreatePostButton.tsx'
 
 const Posts = () => {
-  const { data: posts } = postApi.useFetchAllPostsQuery(12)
+  const { data: posts, isLoading } = postApi.useFetchAllPostsQuery(24)
 
-  console.log('posts', posts)
+  if (!isLoading && !posts?.length) {
+    return (
+      <Empty>
+        <CreatePostButton />
+      </Empty>
+    )
+  }
 
   return (
-    <Row gutter={16}>
+    <Row gutter={16} justify="start">
       {posts?.map((post) => (
         <Col key={post.id} xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 8 }}>
-          <AppCard post={post} />
+          <PostCard post={post} />
         </Col>
       ))}
     </Row>

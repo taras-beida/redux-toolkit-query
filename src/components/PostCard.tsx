@@ -1,33 +1,39 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 
 import { Card } from 'antd'
-import { CommentOutlined, StarFilled, StarOutlined } from '@ant-design/icons'
+import {
+  CommentOutlined,
+  DeleteOutlined,
+  StarFilled,
+  StarOutlined,
+} from '@ant-design/icons'
 
 import { IPost } from '../models/IPost.ts'
 import { postSlice } from '../store/reducers/PostSlice.ts'
 import { useAppDispatch, useAppSelector } from '../hooks/redux.ts'
+import { postApi } from '../services/PostService.ts'
 
 import AppModal from './AppModal.tsx'
-import AppCardComments from './AppCardComments.tsx'
+import PostCardComments from './PostCardComments.tsx'
 
 interface Props {
   post: IPost
 }
 
-const AppCard: FC<Props> = ({ post }) => {
-  const { title, body } = post
+const PostCard: FC<Props> = ({ post }) => {
+  const { id, title, body } = post
 
   const dispatch = useAppDispatch()
 
+  const [deletePost, { data: deletedPost }] = postApi.useDeletePostMutation()
   const { favoritePosts } = useAppSelector((state) => state.postReducer)
   const { addFavouritePost, deleteFavouritePost } = postSlice.actions
+  const [isShowComment, setShowComments] = useState(false)
 
   const isFavourite = useMemo(
     () => favoritePosts.includes(post),
     [favoritePosts, post]
   )
-
-  const [isShowComment, setShowComments] = useState(false)
 
   const handleFavorite = () => {
     if (isFavourite) {
@@ -36,6 +42,14 @@ const AppCard: FC<Props> = ({ post }) => {
       dispatch(addFavouritePost(post))
     }
   }
+
+  const handleDelete = () => {
+    deletePost(id)
+  }
+
+  useEffect(() => {
+    if (deletedPost) alert('DELETED')
+  }, [deletedPost])
 
   return (
     <Card
@@ -55,6 +69,7 @@ const AppCard: FC<Props> = ({ post }) => {
           key="comments"
           onClick={() => setShowComments(true)}
         />,
+        <DeleteOutlined key="delete" onClick={handleDelete} />,
       ]}
     >
       <div className="app-card-body">
@@ -66,10 +81,10 @@ const AppCard: FC<Props> = ({ post }) => {
         title="Comments"
         handleCancel={() => setShowComments(false)}
       >
-        <AppCardComments postId={post.id} />
+        <PostCardComments postId={post.id} />
       </AppModal>
     </Card>
   )
 }
 
-export default AppCard
+export default PostCard

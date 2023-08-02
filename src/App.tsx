@@ -2,12 +2,14 @@ import { Col, Row, Tabs } from 'antd'
 
 import Posts from './components/Posts.tsx'
 import Favorites from './components/Favorites.tsx'
+import CreatePostButton from './components/CreatePostButton.tsx'
 
 function App() {
   return (
     <Row justify="center">
       <Col xs={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 20 }}>
         <Tabs
+          tabBarExtraContent={<CreatePostButton />}
           defaultActiveKey="1"
           items={[
             {
