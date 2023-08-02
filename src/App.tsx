@@ -1,34 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useAppDispatch, useAppSelector } from './hooks/redux.ts'
+import { postSlice } from './store/reducers/PostSlice.ts'
+import { postApi } from './services/PostService.ts'
+import { IPost } from './models/IPost.ts'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useAppDispatch()
+
+  const { favoritePosts } = useAppSelector((state) => state.postReducer)
+  const { addFavouritePost, deleteFavouritePost } = postSlice.actions
+
+  const { data: posts } = postApi.useFetchAllPostsQuery(10)
+
+  const handleAddFav = (post: IPost) => {
+    dispatch(addFavouritePost(post))
+  }
+
+  const handlerDeleteFav = (post: IPost) => {
+    dispatch(deleteFavouritePost(post))
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h2>FAVORITES:</h2>
+      {favoritePosts.map((fav) => (
+        <div key={fav.id}>{fav.title}</div>
+      ))}
+
+      <h2>POSTS:</h2>
+      {posts?.map((post) => (
+        <div key={post.id}>
+          {post.title}
+          <button onClick={() => handleAddFav(post)}>add to fav</button>
+          <button onClick={() => handlerDeleteFav(post)}>
+            delete from fav
+          </button>
+        </div>
+      ))}
+    </div>
   )
 }
 
