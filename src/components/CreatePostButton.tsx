@@ -45,7 +45,7 @@ const CreatePostButton = () => {
 
   useEffect(() => {
     if (!isCreateModal) formik.resetForm()
-  }, [formik, isCreateModal])
+  }, [isCreateModal])
 
   return (
     <div>

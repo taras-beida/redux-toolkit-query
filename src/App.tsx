@@ -15,7 +15,12 @@ function App() {
 
   return (
     <Row justify="center">
-      <Col xs={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 20 }}>
+      <Col
+        xs={{ span: 24 }}
+        lg={{ span: 24 }}
+        xl={{ span: 20 }}
+        xxl={{ span: 16 }}
+      >
         <Tabs
           tabBarExtraContent={activeTab === '1' ? <CreatePostButton /> : null}
           activeKey={activeTab}

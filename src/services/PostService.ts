@@ -10,11 +10,12 @@ export const postApi = createApi({
     /*
       QUERY
     */
-    fetchAllPosts: build.query<IPost[], number>({
-      query: (limit = 10) => ({
+    fetchAllPosts: build.query<IPost[], { limit: number; search: string }>({
+      query: ({ limit = 10, search }) => ({
         url: '/posts',
         params: {
           _limit: limit,
+          title_like: search,
         },
       }),
       providesTags: ['Post'],
