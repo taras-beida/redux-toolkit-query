@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 
-import { Button, Input, Row, Space } from 'antd'
+import { Button, Input, message, Row, Space } from 'antd'
 
 import { IPost } from '../models/IPost.ts'
 import { postApi } from '../services/PostService.ts'
@@ -37,7 +37,10 @@ const CreatePostButton = () => {
   })
 
   useEffect(() => {
-    if (createdPost) setCreateModal(false)
+    if (createdPost) {
+      message.success('Successfully created')
+      setCreateModal(false)
+    }
   }, [createdPost])
 
   useEffect(() => {

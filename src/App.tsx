@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Col, Row, Tabs } from 'antd'
 
 import Posts from './components/Posts.tsx'
@@ -5,12 +7,19 @@ import Favorites from './components/Favorites.tsx'
 import CreatePostButton from './components/CreatePostButton.tsx'
 
 function App() {
+  const [activeTab, setActiveTab] = useState('1')
+
+  const handleChangeTab = (newActiveTab: string) => {
+    setActiveTab(newActiveTab)
+  }
+
   return (
     <Row justify="center">
       <Col xs={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 20 }}>
         <Tabs
-          tabBarExtraContent={<CreatePostButton />}
-          defaultActiveKey="1"
+          tabBarExtraContent={activeTab === '1' ? <CreatePostButton /> : null}
+          activeKey={activeTab}
+          onChange={handleChangeTab}
           items={[
             {
               key: '1',

@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo, useState } from 'react'
 
-import { Card } from 'antd'
+import { Card, message, Popconfirm } from 'antd'
 import {
   CommentOutlined,
   DeleteOutlined,
@@ -48,7 +48,7 @@ const PostCard: FC<Props> = ({ post }) => {
   }
 
   useEffect(() => {
-    if (deletedPost) alert('DELETED')
+    if (deletedPost) message.success('Successfully deleted')
   }, [deletedPost])
 
   return (
@@ -69,7 +69,15 @@ const PostCard: FC<Props> = ({ post }) => {
           key="comments"
           onClick={() => setShowComments(true)}
         />,
-        <DeleteOutlined key="delete" onClick={handleDelete} />,
+        <Popconfirm
+          title="Delete the post"
+          description="Are you sure to delete this post?"
+          onConfirm={handleDelete}
+          okText="Yes"
+          cancelText="No"
+        >
+          <DeleteOutlined key="delete" />
+        </Popconfirm>,
       ]}
     >
       <div className="app-card-body">
