@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 
-import { Button, Input, Space } from 'antd'
+import { Button, Input, Row, Space } from 'antd'
 
 import { IPost } from '../models/IPost.ts'
 import { postApi } from '../services/PostService.ts'
@@ -53,7 +53,7 @@ const CreatePostButton = () => {
         title="Create post"
         handleCancel={() => setCreateModal(false)}
       >
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} style={{ marginTop: '15px' }}>
           <Space size={15} direction="vertical" style={{ width: '100%' }}>
             <Input
               name="title"
@@ -65,16 +65,19 @@ const CreatePostButton = () => {
                 formik.touched.title && formik.errors.title ? 'error' : ''
               }
             />
-            <Input
+            <Input.TextArea
               name="body"
               placeholder="Body"
+              autoSize={{ minRows: 4, maxRows: 4 }}
               onChange={formik.handleChange}
               value={formik.values.body}
               status={formik.touched.body && formik.errors.body ? 'error' : ''}
             />
           </Space>
 
-          <Button htmlType="submit">Submit</Button>
+          <Row justify="end" style={{ marginTop: '15px' }}>
+            <Button htmlType="submit">Submit</Button>
+          </Row>
         </form>
       </AppModal>
     </div>
